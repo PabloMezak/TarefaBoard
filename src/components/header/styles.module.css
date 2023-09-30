@@ -48,6 +48,9 @@
     align-items: center;
     justify-content: center;
 }
+.linkButton{
+    margin-left: 20px;
+}
 .linkButton span{
     background: transparent;
     background-color: white;
@@ -57,4 +60,12 @@
     cursor: pointer;
     transition: all 0.5s;
 
+}
+.OutButton {
+    display: flex;
+    flex-direction: row;
+
+}
+.OutButton button{
+    margin: 10px;
 }

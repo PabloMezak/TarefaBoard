@@ -12,17 +12,22 @@ export function Header() {
                     <Link href="/">
                         <h1 className={styles.logo}>Tarefas<span>+</span></h1>
                     </Link>
-
+                    <Link href="/dashboard" className={styles.linkButton}>
+                        <span>Meu painel</span>
+                    </Link>
                 </nav>
-                <Link href="/dashboard" className={styles.linkButton}>
-                    <span>Meu painel</span>
-                </Link>
+
                 {status === "loading" ? (
                     <></>
                 ) : session ? (
-                    <button className={styles.loginButton} onClick={() => signOut()}>{session?.user?.name}</button>
+                    <div className={styles.OutButton}><button className={styles.loginButton} >Olá {session?.user?.name}
+                    </button>
+                        <button className={styles.loginButton} onClick={() => signOut()}>sair</button>
+                    </div>
+
+
                 ) : (
-                    <button className={styles.loginButton} onClick={() => signIn()}>Acessar conta</button>
+                    <button className={styles.loginButton} onClick={() => signIn("google")}>Acessar conta</button>
                 )}
             </section>
         </header>
