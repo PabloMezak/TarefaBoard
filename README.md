@@ -40,8 +40,3 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-CONTEUDO LOGIN BOTÃO
-<h1>clique no botão para entar</h1>
-            <button className={styles.button} onClick={() => signIn()} >FAZER LOGIN</button>
-            <button className={styles.button} onClick={() => signOut()} >SAIR</button>
-        </div>
