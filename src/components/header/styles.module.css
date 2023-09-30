@@ -15,10 +15,12 @@
     align-items: center;
     justify-content: space-between;
 }
-.content a {
+.content .linkPainel {
    text-decoration: none;
-   color: white;
 
+}
+.linkButton{
+    text-decoration: none;
 }
 .logo{
     color: white;
@@ -29,7 +31,6 @@
     padding-left: 2px;
 }
 .loginButton{
-
     background: transparent;
     border: 1px solid;
     padding: 8px 32px;
@@ -37,6 +38,19 @@
     color: white;
     cursor: pointer;
     transition: all 0.5s;
+    text-decoration: none;
+}
+.OutButton .loginButtonA {
+    background: transparent;
+    background: transparent;
+    border: 1px solid;
+    padding: 8px 32px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.5s;
+    text-decoration: none;
+    margin-right: 20px;
 }
 .loginButton:hover{
     background-color: #fff;
@@ -60,12 +74,4 @@
     cursor: pointer;
     transition: all 0.5s;
 
-}
-.OutButton {
-    display: flex;
-    flex-direction: row;
-
-}
-.OutButton button{
-    margin: 10px;
 }

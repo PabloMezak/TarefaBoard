@@ -9,19 +9,23 @@ export function Header() {
         <header className={styles.header}>
             <section className={styles.content}>
                 <nav className={styles.nav}>
-                    <Link href="/">
+                    <Link href="/" className={styles.linkPainel}>
                         <h1 className={styles.logo}>Tarefas<span>+</span></h1>
                     </Link>
-                    <Link href="/dashboard" className={styles.linkButton}>
-                        <span>Meu painel</span>
-                    </Link>
+                    {session?.user && (
+                        <Link href="/dashboard" className={styles.linkButton}>
+                            <span>Meu painel</span>
+                        </Link>
+                    )}
                 </nav>
 
                 {status === "loading" ? (
                     <></>
                 ) : session ? (
-                    <div className={styles.OutButton}><button className={styles.loginButton} >Olá {session?.user?.name}
-                    </button>
+                    <div className={styles.OutButton}>
+                        <Link className={styles.loginButtonA} href='/perfil'>
+                            Olá {session?.user?.name}
+                        </Link>
                         <button className={styles.loginButton} onClick={() => signOut()}>sair</button>
                     </div>
 
