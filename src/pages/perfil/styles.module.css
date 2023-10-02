@@ -1,0 +1,32 @@
+.container{
+    background-color: white;
+    width: 100%;
+    height: calc(100vh - 76px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+.imgContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(219, 216, 216, 0.855);
+    width: 500px;
+    height: 80%;
+    border-radius: 20px;
+}
+.user{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user img{
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.descri{
+    margin-top: 10px;
+}

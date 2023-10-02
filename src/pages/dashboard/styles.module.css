@@ -1,0 +1,45 @@
+.container{
+    width: 100%;
+
+}
+.content{
+    background-color: #0f0f0f;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contentForm{
+    max-width: 1024px;
+    width: 100%;
+    padding: 0px 19px;
+    padding-bottom: 28px;
+    margin-top: 58px;
+}
+.title{
+    color: #ffff;
+    margin-bottom: 8px;
+    
+}
+
+.chackboxArea label{
+    margin-left: 8px;
+    color: white;
+
+}
+
+.chackbox{
+    width: 18px;
+    height: 18px;
+    margin: 14px 0px;
+}
+.button{
+    width: 100%;
+    border: 0;
+    border-radius: 4px;
+    color: white;
+    background-color: #3183ff;
+    padding: 12px 0;
+    font-size: 18px;
+    
+}

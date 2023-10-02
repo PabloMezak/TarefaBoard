@@ -4,6 +4,8 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 export function Header() {
 
     //UseSession veremos se o usuario está logado ou não
+    // e recebemos os dados dele atraves do Data:session
+    //status é para saber se ele está logado ou nao
     const { data: session, status } = useSession()
     return (
         <header className={styles.header}>
