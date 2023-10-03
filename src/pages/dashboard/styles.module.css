@@ -36,7 +36,6 @@
     height: 18px;
     margin: 14px 0px;
 }
-
 .button {
     width: 100%;
     border: 0;
@@ -86,7 +85,8 @@
     margin-bottom: 8px;
 
 }
-.tag{
+
+.tag {
     background-color: #3183ff;
     color: #ffff;
     padding: 2px 8px;
@@ -94,26 +94,28 @@
     font-size: 12px;
 }
 
-.shareButton{
+.shareButton {
     background: transparent;
     border: 0;
     margin: 0 8px;
     cursor: pointer;
 }
 
-.taskContent{
+.taskContent {
     display: flex;
     align-items: center;
-    justify-content: space-between ;
+    justify-content: space-between;
     width: 100%;
 }
-.teskContent p{
+
+.teskContent p {
     white-space: pre-wrap;
 }
-.trashButton{
+
+.trashButton {
     cursor: pointer;
     border: 0;
     margin: 0 8px;
     background: transparent;
-    
+
 }

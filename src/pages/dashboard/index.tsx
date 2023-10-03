@@ -1,6 +1,6 @@
 import styles from './styles.module.css'
 import Head from 'next/head'
-
+import { ChangeEvent, useState } from 'react'
 import { FaShare, FaTrash } from 'react-icons/fa'
 
 import { GetServerSideProps } from "next"
@@ -13,6 +13,14 @@ import { TextArea } from "@/components/textarea"
  * @returns a JSX element, which represents the structure and content of a dashboard component.
  */
 export default function Dashboard() {
+    const [input, setInput] = useState("")
+    const [publicTask, setPublicTask] = useState(false)
+
+
+    function handleChangePublic(event: ChangeEvent<HTMLInputElement>){
+        setPublicTask(event.target.checked)
+    }
+
     return (
         <div className={styles.container}>
             <Head>
@@ -24,9 +32,15 @@ export default function Dashboard() {
                         <h1 className={styles.title}>Qual sua tarefa</h1>
                         <form>
                             <TextArea
+                                value={input}
+                                onChange={(e:ChangeEvent<HTMLTextAreaElement>)=> setInput(e.target.value)}
                                 placeholder="Digite qual a sua tarefa" />
                             <div className={styles.chackboxArea}>
-                                <input type="checkbox" className={styles.chackbox} />
+                                <input type="checkbox" 
+                                className={styles.chackbox} 
+                                checked={publicTask}
+                                onChange={handleChangePublic}
+                                />
                                 <label>Deixar tarefa publica</label>
                             </div>
                             <button className={styles.button} type="submit">
@@ -55,7 +69,7 @@ export default function Dashboard() {
                             </button>
                         </div>
                     </article>
-                    
+
                 </section>
             </main>
         </div>
