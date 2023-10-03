@@ -1,24 +1,55 @@
 import styles from './styles.module.css'
 import Head from 'next/head'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { FaShare, FaTrash } from 'react-icons/fa'
 
 import { GetServerSideProps } from "next"
 import { getSession } from 'next-auth/react'
 import { TextArea } from "@/components/textarea"
 
+import { db } from '@/services/firebaseConnection'
+import { addDoc, collection } from 'firebase/firestore'
 /**
  * The Dashboard component is a TypeScript React component that renders a form for users to input tasks
  * and a section to display the tasks.
  * @returns a JSX element, which represents the structure and content of a dashboard component.
  */
-export default function Dashboard() {
+
+interface HomeProps{
+    user:{
+        email: string
+    }
+}
+export default function Dashboard({user}:HomeProps) {
     const [input, setInput] = useState("")
     const [publicTask, setPublicTask] = useState(false)
 
-
-    function handleChangePublic(event: ChangeEvent<HTMLInputElement>){
+    function handleChangePublic(event: ChangeEvent<HTMLInputElement>) {
         setPublicTask(event.target.checked)
+    }
+
+
+    //Receber evendo de Submit do FORM (receber os dados escritos no TEXTArea da tarefa)
+    async function HandleRegisterTask(event: FormEvent) {
+        // Não dar Reload na pagina
+        event.preventDefault()
+
+
+        if (input === "") return;
+        try {
+            //criar um Documento com ID aleatoria. Vai entrar dentro do db(Bando de dados) 
+            //e criar uma campo no Bando de dados(db) chamada "tarefas"
+            await addDoc(collection(db,"Tarefas"),{
+                tarefas: input,
+                created: new Date(),
+                user: user?.email,
+                public:  publicTask
+            })
+            setInput("")
+            setPublicTask(false)
+        } catch (error) {
+            console.log(err)
+        }
     }
 
     return (
@@ -30,16 +61,16 @@ export default function Dashboard() {
                 <section className={styles.content}>
                     <div className={styles.contentForm}>
                         <h1 className={styles.title}>Qual sua tarefa</h1>
-                        <form>
+                        <form onSubmit={HandleRegisterTask}>
                             <TextArea
                                 value={input}
-                                onChange={(e:ChangeEvent<HTMLTextAreaElement>)=> setInput(e.target.value)}
+                                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setInput(e.target.value)}
                                 placeholder="Digite qual a sua tarefa" />
                             <div className={styles.chackboxArea}>
-                                <input type="checkbox" 
-                                className={styles.chackbox} 
-                                checked={publicTask}
-                                onChange={handleChangePublic}
+                                <input type="checkbox"
+                                    className={styles.chackbox}
+                                    checked={publicTask}
+                                    onChange={handleChangePublic}
                                 />
                                 <label>Deixar tarefa publica</label>
                             </div>
@@ -96,7 +127,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
             }
         }
     }
+    //Retornar a informação de email como propriedade
     return {
-        props: {},
+        props: {
+            user: {
+                email: session?.user.email
+            }
+        },
     }
 }
