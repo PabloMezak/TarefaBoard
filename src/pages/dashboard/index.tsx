@@ -1,7 +1,7 @@
 import styles from './styles.module.css'
 import Head from 'next/head'
 
-import {FaShare} from 'react-icons/fa'
+import { FaShare, FaTrash } from 'react-icons/fa'
 
 import { GetServerSideProps } from "next"
 import { getSession } from 'next-auth/react'
@@ -23,8 +23,8 @@ export default function Dashboard() {
                     <div className={styles.contentForm}>
                         <h1 className={styles.title}>Qual sua tarefa</h1>
                         <form>
-                            <TextArea 
-                            placeholder="Digite qual a sua tarefa"/>
+                            <TextArea
+                                placeholder="Digite qual a sua tarefa" />
                             <div className={styles.chackboxArea}>
                                 <input type="checkbox" className={styles.chackbox} />
                                 <label>Deixar tarefa publica</label>
@@ -37,21 +37,39 @@ export default function Dashboard() {
                 </section>
 
                 <section className={styles.taskContainer}>
+                    <h1>Minhas tarefas</h1>
                     <article className={styles.task}>
                         <div className={styles.tagContainer}>
                             <label className={styles.tag}>PUBLICO</label>
                             <button className={styles.shareButton}>
                                 <FaShare size={22}
-                                color="blue"/>
+                                    color="blue" />
                             </button>
+                        </div>
 
+                        <div className={styles.taskContent}>
+                            <p>Minha primeira tarefa foi show</p>
+                            <button className={styles.trashButton}>
+                                <FaTrash size={24} color="red"
+                                />
+                            </button>
                         </div>
                     </article>
+                    
                 </section>
             </main>
         </div>
     )
 }
+/**
+ * This function checks if a user is logged in and redirects them to the homepage if they are not.
+ * @param  - The above code is an implementation of the `getServerSideProps` function in Next.js. This
+ * function is used to fetch data on the server side before rendering a page.
+ * @returns The code is returning an object with either a "redirect" property or a "props" property. If
+ * the session does not have a user, it returns a "redirect" object with the destination set to "/" and
+ * permanent set to false. If the session has a user, it returns a "props" object with an empty object
+ * as its value.
+ */
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const session = await getSession({ req })
     //console.log(session)
