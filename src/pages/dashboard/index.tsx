@@ -9,7 +9,7 @@ import { getSession } from 'next-auth/react'
 import { TextArea } from "@/components/textarea"
 
 import { db } from '@/services/firebaseConnection'
-import { addDoc, collection, query, orderBy, where, onSnapshot } from 'firebase/firestore'
+import { addDoc, collection, query, orderBy, where, onSnapshot, doc,deleteDoc} from 'firebase/firestore'
 /**
  * The Dashboard component is a TypeScript React component that renders a form for users to input tasks
  * and a section to display the tasks.
@@ -100,7 +100,13 @@ export default function Dashboard({ user }: HomeProps) {
         await navigator.clipboard.writeText(
             `${process.env.NEXT_PUBLIC_URL}/task/${id}`
         )
-
+            alert("URL COPIADA")
+    }
+    //Deletando tarefas dentro do DB pelo ID
+    async function handleDeleteTask(id :string) {
+        const docRef = doc(db, "tarefas", id)
+        await deleteDoc(docRef)
+        alert("Tarefa excluida com sucesso")
     }
     return (
         <div className={styles.container}>
@@ -154,7 +160,7 @@ export default function Dashboard({ user }: HomeProps) {
                                 ) : (
                                     <p>{item.tarefa}</p>
                                 )}
-                                <button className={styles.trashButton}>
+                                <button className={styles.trashButton} onClick={()=> handleDeleteTask(item.id)}>
                                     <FaTrash size={24} color="red"
                                     />
                                 </button>
