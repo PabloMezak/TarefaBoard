@@ -1,29 +1,73 @@
 import styles from './styles.module.css'
 import Head from 'next/head'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react'
 import { FaShare, FaTrash } from 'react-icons/fa'
+import { GetServerSideProps, } from "next"
+import Link from "next/link"
 
-import { GetServerSideProps } from "next"
 import { getSession } from 'next-auth/react'
 import { TextArea } from "@/components/textarea"
 
 import { db } from '@/services/firebaseConnection'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, query, orderBy, where, onSnapshot } from 'firebase/firestore'
 /**
  * The Dashboard component is a TypeScript React component that renders a form for users to input tasks
  * and a section to display the tasks.
  * @returns a JSX element, which represents the structure and content of a dashboard component.
  */
 
-interface HomeProps{
-    user:{
+interface HomeProps {
+    user: {
         email: string
     }
 }
-export default function Dashboard({user}:HomeProps) {
+interface TaskProps {
+    id: string,
+    created: Date,
+    public: boolean,
+    tarefa: string,
+    user: string
+}
+
+export default function Dashboard({ user }: HomeProps) {
+
+    const [task, setTask] = useState<TaskProps[]>([])
     const [input, setInput] = useState("")
     const [publicTask, setPublicTask] = useState(false)
 
+
+
+    useEffect(() => {
+        async function loadTarefas() {
+            //acessar db para carregar na pagina DashBoad (carregar dentro de uma TASk)
+            const tarefasRef = collection(db, "tarefas")
+            const q = query(
+                tarefasRef,
+                //Ordenar as tarefas criadas de maneira decresente
+                orderBy("created", "desc"),
+                //Buscando tarefas onde a propriedade for igual a o email do usuario
+                where("user", "==", user?.email)
+            )
+            //OnSnapShot Sempre fica olhando e verificando o banco de dados
+            /* A função 'onSnapshot' é usada para escutar alterações em uma consulta Firestore. Neste caso, é
+            escutando alterações na consulta 'q', que recupera tarefas do banco de dados Filestore. */
+            onSnapshot(q, (snapshot) => {
+                let lista = [] as TaskProps[]
+
+                snapshot.forEach((doc) => {
+                    lista.push({
+                        id: doc.id,
+                        tarefa: doc.data().tarefas,
+                        created: doc.data().created,
+                        user: doc.data().user,
+                        public: doc.data().public
+                    })
+                })
+                setTask(lista)
+            })
+        }
+        loadTarefas()
+    }, [user?.email])
     function handleChangePublic(event: ChangeEvent<HTMLInputElement>) {
         setPublicTask(event.target.checked)
     }
@@ -38,20 +82,26 @@ export default function Dashboard({user}:HomeProps) {
         if (input === "") return;
         try {
             //criar um Documento com ID aleatoria. Vai entrar dentro do db(Bando de dados) 
-            //e criar uma campo no Bando de dados(db) chamada "tarefas"
-            await addDoc(collection(db,"Tarefas"),{
+            //e criar uma Tabela no Bando de dados(db) chamada "tarefas"
+            await addDoc(collection(db, "tarefas"), {
                 tarefas: input,
                 created: new Date(),
                 user: user?.email,
-                public:  publicTask
+                public: publicTask
             })
             setInput("")
             setPublicTask(false)
         } catch (error) {
-            console.log(err)
+            console.log(error)
         }
     }
 
+    async function handleShare(id: string) {
+        await navigator.clipboard.writeText(
+            `${process.env.NEXT_PUBLIC_URL}/task/${id}`
+        )
+
+    }
     return (
         <div className={styles.container}>
             <Head>
@@ -83,23 +133,34 @@ export default function Dashboard({user}:HomeProps) {
 
                 <section className={styles.taskContainer}>
                     <h1>Minhas tarefas</h1>
-                    <article className={styles.task}>
-                        <div className={styles.tagContainer}>
-                            <label className={styles.tag}>PUBLICO</label>
-                            <button className={styles.shareButton}>
-                                <FaShare size={22}
-                                    color="blue" />
-                            </button>
-                        </div>
+                    {task.map((item) => (
+                        <article key={item.id} className={styles.task}>
+                            {item.public && (
+                                <div className={styles.tagContainer}>
+                                    <label className={styles.tag}>PUBLICO</label>
+                                    <button className={styles.shareButton} onClick={() => handleShare(item.id)}>
+                                        <FaShare size={22}
+                                            color="blue" />
+                                    </button>
+                                </div>
+                            )}
 
-                        <div className={styles.taskContent}>
-                            <p>Minha primeira tarefa foi show</p>
-                            <button className={styles.trashButton}>
-                                <FaTrash size={24} color="red"
-                                />
-                            </button>
-                        </div>
-                    </article>
+
+                            <div className={styles.taskContent}>
+                                {item.public ? (
+                                    <Link href={`/task/${item.id}`}>
+                                        <p>{item.tarefa}</p>
+                                    </Link>
+                                ) : (
+                                    <p>{item.tarefa}</p>
+                                )}
+                                <button className={styles.trashButton}>
+                                    <FaTrash size={24} color="red"
+                                    />
+                                </button>
+                            </div>
+                        </article>
+                    ))}
 
                 </section>
             </main>
