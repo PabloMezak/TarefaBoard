@@ -3,7 +3,17 @@ import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import { useSession, signIn, signOut } from "next-auth/react"
 import hero from 'public/assets/hero.png'
-export default function Home() {
+import { GetStaticProps } from 'next'
+import { collection, getDoc, getDocs } from 'firebase/firestore'
+import { db } from '@/services/firebaseConnection'
+
+interface HomeProps{
+  posts: number,
+  comments: number
+} 
+
+
+export default function Home({comments, posts}: HomeProps) {
   return (
     <>
 
@@ -18,20 +28,20 @@ export default function Home() {
 
           <main className={styles.main}>
             <div className={styles.logoContent}>
-              <Image className={styles.hero}src={hero}
-              priority alt='Logo'></Image>
+              <Image className={styles.hero} src={hero}
+                priority alt='Logo'></Image>
             </div>
             <h1 className={styles.title}>
               Sistema feito para você <br />
               Organizar seus estudos e tarefas
             </h1>
             <div className={styles.infoContent}>
-                <section className={styles.box}>
-                  <span>+12 posts</span>
-                </section>
-                <section className={styles.box}>
-                  <span>+20 comentarios</span>
-                </section>
+              <section className={styles.box}>
+                <span>+{posts} Posts</span>
+              </section>
+              <section className={styles.box}>
+                <span>+ {comments} Comentarios</span>
+              </section>
 
             </div>
           </main>
@@ -40,4 +50,24 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  //Buscar do banco os numeros e mandar pro componente
+  const commentsRef = collection(db , "comments")
+  //resultado do documento dos comentarios 
+  const commentSnapShot = await getDocs(commentsRef)
+  //pegar o numero de posts
+  const postRef = collection(db, "tarefas")
+  const postSnapShot = await getDocs(postRef)
+  return {
+    props: {
+      posts: postSnapShot.size || 0 ,
+      comments : commentSnapShot.size || 0 
+    },
+    revalidate: 60, // revalidada a cada 60 segundos
+  }
+
+
+
 }
