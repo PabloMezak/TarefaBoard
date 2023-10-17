@@ -1,42 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# TarefaBoard+
+TarefaBoard+: Aplicativo Web para Gerenciamento de Tarefas
 
-First, run the development server:
+O TarefaBoard+ é uma aplicação web projetada para auxiliar no gerenciamento eficiente de suas tarefas. Este aplicativo permite a criação, organização e compartilhamento de tarefas de maneira conveniente.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Principais recursos:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Login com o Google: Faça login sem cadastro apenas utilizando uma conta existente do Gmail, Google.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Armazenamento de Tarefas: O TarefaBoard+ oferece uma plataforma segura e intuitiva para o armazenamento de suas tarefas. Mantenha um registro de suas obrigações, compromissos e projetos em um só lugar.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Navegação Simples: Abra suas tarefas em uma nova aba, proporcionando uma experiência de usuário aprimorada. Isso permite uma visualização mais detalhada e a capacidade de focar em tarefas individuais.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Compartilhamento de Tarefas: Compartilhe tarefas específicas com colegas, amigos ou familiares, proporcionando a eles a capacidade de visualizar e comentar sobre as tarefas compartilhadas. Isso promove uma colaboração eficaz em projetos compartilhados.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+O TarefaBoard+ foi desenvolvido com foco na simplicidade, usabilidade e eficiência, tornando-o uma ferramenta valiosa para o gerenciamento de tarefas pessoais e profissionais. Comece a usar hoje mesmo para tornar sua vida mais organizada e produtiva. 
 
-## Learn More
+## Stack utilizada
+Este projeto constitui uma aplicação de lista de tarefas simplificada, que foi desenvolvida empregando a estrutura Next.js, a solução Next Auth para autenticação e a plataforma Firebase/Firestore para o armazenamento de dados.
 
-To learn more about Next.js, take a look at the following resources:
+**Front-end:** NextJs, Css, TypeScript 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
+**Back-end:** Firebase, Firestore, FireStore/SnapShot, NextAuth (GoogleProvider)
 
